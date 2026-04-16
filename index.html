@@ -1,0 +1,1053 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kraina Krasnoludków · Rękodziełem Zaczarowana</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Petit+Formal+Script&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── TOKENS ─── */
+    :root {
+      --moss:       #2d4a2a;
+      --deep-moss:  #1a2e18;
+      --forest:     #3b5e36;
+      --amber:      #c8891a;
+      --gold:       #e2a832;
+      --pale-gold:  #f5d98b;
+      --rose:       #c4796a;
+      --blush:      #e8b5a8;
+      --cream:      #f7f0e6;
+      --parchment:  #ede0cc;
+      --ink:        #1e1a14;
+      --mist:       rgba(247,240,230,0.06);
+    }
+
+    /* ─── RESET ─── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--deep-moss);
+      color: var(--cream);
+      font-family: 'Cormorant Garamond', Georgia, serif;
+      font-size: clamp(16px, 2vw, 19px);
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    /* ─── NOISE TEXTURE OVERLAY ─── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.04;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ─── GLOWING GRADIENT BG ─── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 20% 10%, rgba(200,137,26,0.08) 0%, transparent 70%),
+        radial-gradient(ellipse 50% 60% at 80% 80%, rgba(196,121,106,0.07) 0%, transparent 70%),
+        radial-gradient(ellipse 80% 80% at 50% 40%, rgba(45,74,42,0.3) 0%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ─── TYPOGRAPHY ─── */
+    h1, h2, h3, .display {
+      font-family: 'Cinzel Decorative', serif;
+      line-height: 1.2;
+    }
+    .script {
+      font-family: 'Petit Formal Script', cursive;
+    }
+
+    /* ─── LAYOUT ─── */
+    .container {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 clamp(1.2rem, 5vw, 3rem);
+      position: relative;
+      z-index: 1;
+    }
+
+    section {
+      padding: clamp(3rem, 8vw, 6rem) 0;
+    }
+
+    /* ─── DIVIDER VINE ─── */
+    .vine-divider {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin: 2.5rem 0;
+      opacity: 0.5;
+    }
+    .vine-divider::before,
+    .vine-divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    }
+    .vine-divider span {
+      color: var(--gold);
+      font-size: 1.2rem;
+      flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────────────
+       HERO
+    ───────────────────────────────────────── */
+    #hero {
+      min-height: 100svh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 4rem clamp(1.2rem, 5vw, 3rem);
+      position: relative;
+    }
+
+    /* mushroom ring decoration */
+    #hero::before {
+      content: '';
+      position: absolute;
+      width: min(500px, 90vw);
+      height: min(500px, 90vw);
+      border-radius: 50%;
+      border: 1px solid rgba(226,168,50,0.12);
+      box-shadow:
+        0 0 0 2px rgba(226,168,50,0.04),
+        0 0 60px rgba(200,137,26,0.06),
+        inset 0 0 60px rgba(200,137,26,0.04);
+      pointer-events: none;
+      animation: pulse-ring 6s ease-in-out infinite;
+    }
+    @keyframes pulse-ring {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50%       { transform: scale(1.04); opacity: 0.6; }
+    }
+
+    .hero-eyebrow {
+      font-family: 'Petit Formal Script', cursive;
+      font-size: clamp(1.1rem, 3vw, 1.6rem);
+      color: var(--gold);
+      margin-bottom: 1.2rem;
+      animation: fadeUp 1s ease both;
+    }
+
+    .hero-title {
+      font-size: clamp(2rem, 7vw, 4.5rem);
+      color: var(--pale-gold);
+      text-shadow:
+        0 0 40px rgba(226,168,50,0.35),
+        0 2px 8px rgba(0,0,0,0.6);
+      letter-spacing: 0.04em;
+      animation: fadeUp 1s 0.2s ease both;
+    }
+
+    .hero-title em {
+      display: block;
+      font-style: normal;
+      color: var(--blush);
+      font-size: 0.55em;
+      letter-spacing: 0.12em;
+      margin-top: 0.4em;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+    }
+
+    .hero-sub {
+      max-width: 520px;
+      margin: 2rem auto 0;
+      font-size: clamp(1rem, 2.5vw, 1.2rem);
+      color: var(--parchment);
+      opacity: 0.85;
+      font-style: italic;
+      font-weight: 300;
+      animation: fadeUp 1s 0.4s ease both;
+    }
+
+    .hero-cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2.5rem;
+      animation: fadeUp 1s 0.6s ease both;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ─── BUTTONS ─── */
+    .btn {
+      display: inline-block;
+      padding: 0.75em 2em;
+      border-radius: 2px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      border: none;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--amber), var(--gold));
+      color: var(--ink);
+      font-weight: 600;
+      box-shadow: 0 4px 20px rgba(200,137,26,0.3);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(200,137,26,0.45);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--pale-gold);
+      border: 1px solid rgba(226,168,50,0.45);
+    }
+    .btn-outline:hover {
+      background: rgba(226,168,50,0.08);
+      border-color: var(--gold);
+    }
+
+    /* scroll hint */
+    .scroll-hint {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.4rem;
+      color: var(--gold);
+      opacity: 0.45;
+      animation: fadeUp 1s 1s ease both, bob 2s 2s ease-in-out infinite;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    @keyframes bob {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50%       { transform: translateX(-50%) translateY(6px); }
+    }
+    .scroll-hint svg { width: 20px; height: 20px; stroke: var(--gold); fill: none; }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1rem clamp(1.2rem, 5vw, 3rem);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: background 0.4s, backdrop-filter 0.4s;
+    }
+    nav.scrolled {
+      background: rgba(18,28,16,0.85);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid rgba(226,168,50,0.1);
+    }
+    .nav-logo {
+      font-family: 'Cinzel Decorative', serif;
+      font-size: 0.85rem;
+      color: var(--pale-gold);
+      text-decoration: none;
+      letter-spacing: 0.06em;
+    }
+    .nav-links {
+      display: flex;
+      gap: clamp(1rem, 3vw, 2rem);
+      list-style: none;
+    }
+    .nav-links a {
+      color: var(--parchment);
+      text-decoration: none;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: color 0.2s;
+      opacity: 0.8;
+    }
+    .nav-links a:hover { color: var(--gold); opacity: 1; }
+
+    /* hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px;
+      height: 1.5px;
+      background: var(--pale-gold);
+      transition: all 0.3s;
+    }
+    .hamburger.open span:nth-child(1) { transform: rotate(45deg) translate(4.5px, 4.5px); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: rotate(-45deg) translate(4.5px, -4.5px); }
+
+    @media (max-width: 600px) {
+      .hamburger { display: flex; }
+      .nav-links {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(14,22,12,0.97);
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 2rem;
+        z-index: 99;
+      }
+      .nav-links.open { display: flex; }
+      .nav-links a { font-size: 1.2rem; }
+    }
+
+    /* ─────────────────────────────────────────
+       SECTION HEADERS
+    ───────────────────────────────────────── */
+    .section-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+    .section-eyebrow {
+      font-family: 'Petit Formal Script', cursive;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .section-title {
+      font-size: clamp(1.4rem, 4vw, 2.5rem);
+      color: var(--pale-gold);
+    }
+    .section-lead {
+      max-width: 560px;
+      margin: 1rem auto 0;
+      color: var(--parchment);
+      opacity: 0.8;
+      font-style: italic;
+      font-size: 1.05rem;
+      font-weight: 300;
+    }
+
+    /* ─────────────────────────────────────────
+       ABOUT
+    ───────────────────────────────────────── */
+    #about { border-top: 1px solid rgba(226,168,50,0.08); }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    @media (max-width: 680px) {
+      .about-grid { grid-template-columns: 1fr; }
+    }
+
+    .about-portrait {
+      position: relative;
+      aspect-ratio: 3/4;
+      max-height: 440px;
+    }
+    .portrait-frame {
+      width: 100%;
+      height: 100%;
+      background:
+        linear-gradient(135deg, rgba(45,74,42,0.8), rgba(26,46,24,0.9)),
+        radial-gradient(circle at 60% 40%, rgba(200,137,26,0.15), transparent 70%);
+      border: 1px solid rgba(226,168,50,0.2);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+    }
+    .portrait-placeholder {
+      font-size: 6rem;
+      line-height: 1;
+      filter: drop-shadow(0 0 20px rgba(226,168,50,0.4));
+      animation: float 5s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-10px); }
+    }
+    /* corner ornaments */
+    .portrait-frame::before,
+    .portrait-frame::after {
+      content: '✦';
+      position: absolute;
+      color: rgba(226,168,50,0.35);
+      font-size: 1.2rem;
+    }
+    .portrait-frame::before { top: 0.6rem; left: 0.6rem; }
+    .portrait-frame::after  { bottom: 0.6rem; right: 0.6rem; }
+
+    .about-text h2 {
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      color: var(--pale-gold);
+      margin-bottom: 1.2rem;
+    }
+    .about-text p {
+      color: var(--parchment);
+      opacity: 0.85;
+      margin-bottom: 1rem;
+      font-weight: 300;
+    }
+    .about-text p strong {
+      color: var(--blush);
+      font-weight: 500;
+    }
+
+    /* ─────────────────────────────────────────
+       OFFERINGS — 3 CARDS
+    ───────────────────────────────────────── */
+    #offerings { border-top: 1px solid rgba(226,168,50,0.08); }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(226,168,50,0.15);
+      border-radius: 2px;
+      padding: clamp(1.5rem, 4vw, 2.2rem);
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at top left, rgba(200,137,26,0.06), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    .card:hover {
+      border-color: rgba(226,168,50,0.4);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.3);
+    }
+    .card:hover::before { opacity: 1; }
+
+    .card-icon {
+      font-size: 2.4rem;
+      line-height: 1;
+      margin-bottom: 1rem;
+      display: block;
+      filter: drop-shadow(0 0 8px rgba(226,168,50,0.3));
+    }
+    .card h3 {
+      font-size: 1.1rem;
+      color: var(--pale-gold);
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.04em;
+    }
+    .card p {
+      font-size: 0.95rem;
+      color: var(--parchment);
+      opacity: 0.75;
+      font-weight: 300;
+      line-height: 1.6;
+    }
+    .card-link {
+      display: inline-block;
+      margin-top: 1.2rem;
+      font-size: 0.8rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(226,168,50,0.3);
+      transition: border-color 0.2s, color 0.2s;
+    }
+    .card-link:hover { color: var(--pale-gold); border-color: var(--pale-gold); }
+
+    /* ─────────────────────────────────────────
+       WORKSHOP
+    ───────────────────────────────────────── */
+    #warsztaty { border-top: 1px solid rgba(226,168,50,0.08); }
+
+    .workshop-inner {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    @media (max-width: 680px) {
+      .workshop-inner { grid-template-columns: 1fr; }
+      .workshop-visual { order: -1; }
+    }
+
+    .workshop-visual {
+      aspect-ratio: 1;
+      max-height: 380px;
+      border: 1px solid rgba(196,121,106,0.25);
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(196,121,106,0.1) 0%, rgba(45,74,42,0.4) 60%, transparent 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      position: relative;
+      animation: pulse-ring 7s 1s ease-in-out infinite;
+      margin: 0 auto;
+    }
+
+    .workshop-details h2 {
+      font-size: clamp(1.4rem, 3.5vw, 2.2rem);
+      color: var(--pale-gold);
+      margin-bottom: 1.2rem;
+    }
+    .workshop-details p {
+      color: var(--parchment);
+      opacity: 0.82;
+      font-weight: 300;
+      margin-bottom: 1rem;
+    }
+
+    .perks {
+      list-style: none;
+      margin: 1.2rem 0 1.8rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .perks li {
+      font-size: 0.95rem;
+      color: var(--parchment);
+      opacity: 0.8;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .perks li::before {
+      content: '✦';
+      color: var(--rose);
+      font-size: 0.7rem;
+      flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────────────
+       GALLERY PREVIEW (placeholder grid)
+    ───────────────────────────────────────── */
+    #galeria { border-top: 1px solid rgba(226,168,50,0.08); }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-template-rows: auto auto;
+      gap: 0.8rem;
+    }
+    @media (max-width: 500px) {
+      .gallery-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    .gallery-cell {
+      aspect-ratio: 1;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(226,168,50,0.1);
+      border-radius: 2px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      transition: border-color 0.3s, transform 0.3s;
+    }
+    .gallery-cell:hover {
+      border-color: rgba(226,168,50,0.4);
+      transform: scale(1.02);
+    }
+    .gallery-cell.featured {
+      grid-column: span 2;
+      aspect-ratio: 2/1;
+      font-size: clamp(3rem, 7vw, 5rem);
+    }
+    .gallery-cell-bg {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle, rgba(200,137,26,0.07), transparent 70%);
+    }
+
+    /* ─────────────────────────────────────────
+       RECIPES / PORADY STRIP
+    ───────────────────────────────────────── */
+    #porady { border-top: 1px solid rgba(226,168,50,0.08); }
+
+    .recipe-strip {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      border: 1px solid rgba(226,168,50,0.12);
+    }
+    .recipe-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.1rem 1.5rem;
+      background: rgba(255,255,255,0.02);
+      transition: background 0.2s;
+      cursor: pointer;
+      gap: 1rem;
+      text-decoration: none;
+      color: inherit;
+    }
+    .recipe-row:hover { background: rgba(226,168,50,0.05); }
+    .recipe-row + .recipe-row { border-top: 1px solid rgba(226,168,50,0.08); }
+
+    .recipe-info { display: flex; flex-direction: column; gap: 0.2rem; }
+    .recipe-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      color: var(--cream);
+      font-weight: 500;
+    }
+    .recipe-meta {
+      font-size: 0.8rem;
+      color: var(--gold);
+      opacity: 0.7;
+      font-style: italic;
+    }
+    .recipe-tag {
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      border: 1px solid rgba(226,168,50,0.25);
+      padding: 0.2em 0.7em;
+      color: var(--pale-gold);
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* ─────────────────────────────────────────
+       CONTACT / FOOTER
+    ───────────────────────────────────────── */
+    #kontakt {
+      border-top: 1px solid rgba(226,168,50,0.08);
+      text-align: center;
+    }
+
+    .contact-inner {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+    .contact-inner p {
+      color: var(--parchment);
+      opacity: 0.8;
+      font-style: italic;
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+
+    .contact-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+    .contact-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--parchment);
+      text-decoration: none;
+      font-size: 0.9rem;
+      letter-spacing: 0.06em;
+      opacity: 0.7;
+      transition: opacity 0.2s, color 0.2s;
+    }
+    .contact-link:hover { opacity: 1; color: var(--gold); }
+    .contact-link svg { width: 18px; height: 18px; stroke: currentColor; fill: none; }
+
+    footer {
+      text-align: center;
+      padding: 2rem clamp(1.2rem, 5vw, 3rem);
+      border-top: 1px solid rgba(226,168,50,0.07);
+      font-size: 0.78rem;
+      color: var(--parchment);
+      opacity: 0.35;
+      letter-spacing: 0.08em;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* ─── FLOATING PARTICLES ─── */
+    .particle {
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+      animation: drift linear infinite;
+      font-size: 0.7rem;
+      opacity: 0;
+    }
+    @keyframes drift {
+      0%   { transform: translateY(100vh) rotate(0deg);   opacity: 0; }
+      5%   { opacity: 0.4; }
+      95%  { opacity: 0.2; }
+      100% { transform: translateY(-10vh) rotate(720deg); opacity: 0; }
+    }
+
+    /* ─── ACCESSIBILITY ─── */
+    :focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 3px;
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- FLOATING PARTICLES -->
+  <div id="particles" aria-hidden="true"></div>
+
+  <!-- NAV -->
+  <nav id="nav" role="navigation" aria-label="Główna nawigacja">
+    <a href="#" class="nav-logo">✦ Kraina Krasnoludków</a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#about">O mnie</a></li>
+      <li><a href="#offerings">Sklep</a></li>
+      <li><a href="#warsztaty">Warsztaty</a></li>
+      <li><a href="#porady">Porady</a></li>
+      <li><a href="#kontakt">Kontakt</a></li>
+    </ul>
+    <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero" aria-label="Witaj w krainie">
+    <p class="hero-eyebrow">zapraszam cię do</p>
+    <h1 class="hero-title">
+      Krainy Krasnoludków
+      <em>gdzie rękodzieło spotyka magię</em>
+    </h1>
+    <p class="hero-sub">
+      Ręcznie szydełkowane skarby, receptury do własnego tworzenia
+      i kameralne warsztaty pełne czarów — wszystko w jednym miejscu.
+    </p>
+    <div class="hero-cta-group">
+      <a href="#offerings" class="btn btn-primary">Odkryj sklep</a>
+      <a href="#warsztaty" class="btn btn-outline">Warsztaty</a>
+    </div>
+
+    <div class="scroll-hint" aria-hidden="true">
+      <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+      wejdź głębiej
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="container">
+      <div class="about-grid">
+        <div class="about-portrait" aria-hidden="true">
+          <div class="portrait-frame">
+            <span class="portrait-placeholder">🧚</span>
+          </div>
+        </div>
+        <div class="about-text">
+          <h2>Królowa Krasnoludków</h2>
+          <p>
+            Żyję w miejscu, gdzie nici zamieniają się w zaklęcia,
+            a szydełko jest różdżką. Od lat tkam swój własny świat —
+            <strong>ciepły, magiczny, ręcznie robiony</strong>.
+          </p>
+          <p>
+            Wierzę, że każdy spleciony oczko niesie w sobie odrobinę magii
+            i że prawdziwe rzemiosło łączy ludzi silniej niż cokolwiek innego.
+          </p>
+          <p>
+            Tu znajdziesz gotowe wyroby, projekty na zamówienie,
+            moje przepisy i przestrzeń do wspólnego tworzenia.
+          </p>
+          <a href="#kontakt" class="btn btn-outline" style="margin-top:0.5rem">Napisz do mnie</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFFERINGS -->
+  <section id="offerings">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">co tu znajdziesz</span>
+        <h2 class="section-title">Sklep i Zamówienia</h2>
+        <p class="section-lead">Każdy przedmiot szydeł­kowany z intencją, każdy projekt szyty na miarę twojego marzenia.</p>
+      </div>
+
+      <div class="cards">
+        <div class="card">
+          <span class="card-icon" aria-hidden="true">🍄</span>
+          <h3>Gotowe wyroby</h3>
+          <p>Kapelusz krasnoludka, magiczne woreczki, leśne amulety i wiele więcej — gotowe do wysyłki.</p>
+          <a href="#galeria" class="card-link">Zobacz galerię →</a>
+        </div>
+        <div class="card">
+          <span class="card-icon" aria-hidden="true">🌿</span>
+          <h3>Na zamówienie</h3>
+          <p>Masz wizję? Opowiedz mi o niej. Wspólnie utkamy coś, czego jeszcze na świecie nie było.</p>
+          <a href="#kontakt" class="card-link">Zamów →</a>
+        </div>
+        <div class="card">
+          <span class="card-icon" aria-hidden="true">📜</span>
+          <h3>Przepisy i wzory</h3>
+          <p>Darmowe i płatne wzory dla wszystkich poziomów — od pierwszego oczka do zaawansowanych zaklęć.</p>
+          <a href="#porady" class="card-link">Przeglądaj →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GALLERY PREVIEW -->
+  <section id="galeria">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">moja pracownia</span>
+        <h2 class="section-title">Galeria</h2>
+      </div>
+      <div class="gallery-grid" aria-label="Galeria prac">
+        <div class="gallery-cell featured" title="Dodaj tu swoje zdjęcie">
+          <div class="gallery-cell-bg"></div>
+          🍂
+        </div>
+        <div class="gallery-cell" title="Dodaj tu swoje zdjęcie">
+          <div class="gallery-cell-bg"></div>
+          🌸
+        </div>
+        <div class="gallery-cell" title="Dodaj tu swoje zdjęcie">
+          <div class="gallery-cell-bg"></div>
+          🦋
+        </div>
+        <div class="gallery-cell" title="Dodaj tu swoje zdjęcie">
+          <div class="gallery-cell-bg"></div>
+          🍃
+        </div>
+        <div class="gallery-cell" title="Dodaj tu swoje zdjęcie">
+          <div class="gallery-cell-bg"></div>
+          ✨
+        </div>
+        <div class="gallery-cell" title="Dodaj tu swoje zdjęcie">
+          <div class="gallery-cell-bg"></div>
+          🌙
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WARSZTATY -->
+  <section id="warsztaty">
+    <div class="container">
+      <div class="workshop-inner">
+        <div class="workshop-details">
+          <h2>Kameralne Warsztaty</h2>
+          <p>
+            Małe grupy, dużo magii. Zapraszam do swojego lasu — dosłownie
+            lub metaforycznie — na warsztaty, które są czymś więcej niż nauką szydełkowania.
+          </p>
+          <p>
+            To czas dla siebie. Zapach herbaty, szmer nici i ten moment,
+            kiedy coś w rękach nabiera kształtu.
+          </p>
+          <ul class="perks">
+            <li>Maksymalnie 6 osób w grupie</li>
+            <li>Wszystkie materiały w cenie</li>
+            <li>Dla absolutnych początkujących i zaawansowanych</li>
+            <li>Warsztaty stacjonarne i online</li>
+            <li>Indywidualny rytm, żadnego pośpiechu</li>
+          </ul>
+          <a href="#kontakt" class="btn btn-primary">Zapisz się</a>
+        </div>
+        <div class="workshop-visual" aria-hidden="true">
+          🪡
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PORADY -->
+  <section id="porady">
+    <div class="container">
+      <div class="section-header">
+        <span class="section-eyebrow">wiedza z lasu</span>
+        <h2 class="section-title">Przepisy & Porady</h2>
+        <p class="section-lead">Dzielę się tym, co wiem — bo magia rośnie, kiedy się nią dzielisz.</p>
+      </div>
+
+      <div class="recipe-strip" role="list">
+        <a href="#" class="recipe-row" role="listitem">
+          <div class="recipe-info">
+            <span class="recipe-title">Magiczny grzyb leśny — wzór podstawowy</span>
+            <span class="recipe-meta">dla początkujących · amigurumi</span>
+          </div>
+          <span class="recipe-tag">Darmowy</span>
+        </a>
+        <a href="#" class="recipe-row" role="listitem">
+          <div class="recipe-info">
+            <span class="recipe-title">Kapelusik krasnoludka z rondem</span>
+            <span class="recipe-meta">poziom średni · ok. 3h</span>
+          </div>
+          <span class="recipe-tag">Wzór PDF</span>
+        </a>
+        <a href="#" class="recipe-row" role="listitem">
+          <div class="recipe-info">
+            <span class="recipe-title">Jak dobierać włóczkę do amigurumi</span>
+            <span class="recipe-meta">poradnik · zdjęcia krok po kroku</span>
+          </div>
+          <span class="recipe-tag">Artykuł</span>
+        </a>
+        <a href="#" class="recipe-row" role="listitem">
+          <div class="recipe-info">
+            <span class="recipe-title">Woreczek ziołowy z haftem koralikowym</span>
+            <span class="recipe-meta">poziom zaawansowany · projekt sezonowy</span>
+          </div>
+          <span class="recipe-tag">Wzór PDF</span>
+        </a>
+        <a href="#" class="recipe-row" role="listitem">
+          <div class="recipe-info">
+            <span class="recipe-title">5 sposobów na idealne wykończenie</span>
+            <span class="recipe-meta">tips & tricks · dla każdego poziomu</span>
+          </div>
+          <span class="recipe-tag">Darmowy</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAKT -->
+  <section id="kontakt">
+    <div class="container">
+      <div class="contact-inner">
+        <div class="section-header">
+          <span class="section-eyebrow">otwórz bramę</span>
+          <h2 class="section-title">Napisz do mnie</h2>
+        </div>
+        <p>
+          Chcesz zamówić coś wyjątkowego, zapisać się na warsztaty
+          albo po prostu powiedzieć cześć? Czekam.
+        </p>
+        <a href="mailto:hello@example.com" class="btn btn-primary">Napisz wiadomość</a>
+
+        <div class="vine-divider"><span>✦</span></div>
+
+        <div class="contact-links">
+          <!-- Instagram -->
+          <a href="#" class="contact-link" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="0.5" fill="currentColor"/></svg>
+            Instagram
+          </a>
+          <!-- Etsy / sklep -->
+          <a href="#" class="contact-link" aria-label="Sklep Etsy">
+            <svg viewBox="0 0 24 24" stroke-width="1.5"><path d="M3 6h18M3 12h12M3 18h18"/></svg>
+            Sklep Etsy
+          </a>
+          <!-- Ravelry / Pinterest -->
+          <a href="#" class="contact-link" aria-label="Ravelry">
+            <svg viewBox="0 0 24 24" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12s1-3 4-3 4 3 4 3-1 3-4 3-4-3-4-3z"/></svg>
+            Ravelry
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>✦ Ręcznie tkane z miłością gdzieś w lesie · Kraina Krasnoludków ✦</p>
+  </footer>
+
+  <script>
+    // ── NAV SCROLL ──
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // ── HAMBURGER ──
+    const ham = document.getElementById('hamburger');
+    const links = document.getElementById('nav-links');
+    ham.addEventListener('click', () => {
+      const open = links.classList.toggle('open');
+      ham.classList.toggle('open', open);
+      ham.setAttribute('aria-expanded', open);
+    });
+    links.querySelectorAll('a').forEach(a => {
+      a.addEventListener('click', () => {
+        links.classList.remove('open');
+        ham.classList.remove('open');
+        ham.setAttribute('aria-expanded', false);
+      });
+    });
+
+    // ── FLOATING PARTICLES ──
+    const GLYPHS = ['✦','·','✿','◦','❧','✾','⁕','⊹'];
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 18; i++) {
+      const el = document.createElement('span');
+      el.className = 'particle';
+      el.textContent = GLYPHS[Math.floor(Math.random() * GLYPHS.length)];
+      el.style.cssText = `
+        left: ${Math.random() * 100}vw;
+        animation-duration: ${12 + Math.random() * 18}s;
+        animation-delay: ${Math.random() * 20}s;
+        color: ${Math.random() > 0.5 ? 'var(--gold)' : 'var(--rose)'};
+        font-size: ${0.5 + Math.random() * 0.8}rem;
+      `;
+      container.appendChild(el);
+    }
+
+    // ── SCROLL-IN ANIMATIONS ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+          observer.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.card, .recipe-row, .gallery-cell').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+      observer.observe(el);
+    });
+  </script>
+</body>
+</html>
